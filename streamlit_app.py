@@ -10,19 +10,19 @@ csv_file = "https://drive.google.com/uc?id=1U6EadEGw-gFn63lnQTrtv43qtV_H9nnt"
 placeholder = st.empty()
 
 # główna pętla
-while True:
-    try:
+
+try:
         # wczytanie całego CSV
-        df = pd.read_csv(csv_file, delimiter=';')
+    df = pd.read_csv(csv_file, delimiter=';')
 
         # wyświetlenie tabeli w Streamlit
-        with placeholder.container():
-            st.subheader("Aktualne dane z produkcji")
-            st.dataframe(df)
+    with placeholder.container():
+        st.subheader("Aktualne dane z produkcji")
+        st.dataframe(df)
 
-    except Exception as e:
-        st.error(f"Błąd odczytu pliku: {e}")
+except Exception as e:
+    st.error(f"Błąd odczytu pliku: {e}")
 
     # odświeżenie co 5 sekund
-    time.sleep(5)
-
+time.sleep(5)
+st.experimental_rerun()
