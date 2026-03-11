@@ -4,25 +4,33 @@ import time
 
 st.title("Dashboard produkcji")
 
+# Link do CSV na Google Drive
 csv_file = "https://drive.google.com/uc?id=1U6EadEGw-gFn63lnQTrtv43qtV_H9nnt"
 
-# Streamlit placeholder na tabelę
-placeholder = st.empty()
-
-# główna pętla
-
+# Wczytanie CSV
 try:
-        # wczytanie całego CSV
     df = pd.read_csv(csv_file, delimiter=';')
-
-        # wyświetlenie tabeli w Streamlit
-    with placeholder.container():
-        st.subheader("Aktualne dane z produkcji")
-        st.dataframe(df)
-
 except Exception as e:
-    st.error(f"Błąd odczytu pliku: {e}")
+    st.error(f"Błąd odczytu CSV: {e}")
+    df = pd.DataFrame()
 
-    # odświeżenie co 5 sekund
-time.sleep(5)
-st_autorefresh
+# Wyświetlenie tabeli
+st.subheader("Aktualne dane z produkcji")
+st.dataframe(df, use_container_width=True)
+
+# Wykresy (opcjonalnie)
+if not df.empty:
+    st.subheader("Wykresy produkcji i odrzutów")
+    st.line_chart(df[['Denka', 'Wieczka', 'Wkladki']])
+    st.line_chart(df[['Blad A', 'Blad B']])
+
+# --- automatyczne odświeżanie co 5 sekund ---
+st_autorefresh = st.experimental_get_query_params()
+refresh_interval = 5  # sekundy
+
+# dodajemy parametr odświeżania
+if "refresh" not in st_autorefresh:
+    st.experimental_set_query_params(refresh=0)
+
+# Streamlit samo odświeża stronę po podanym czasie
+st.experimental_rerun()  # wymusza ponowne uruchomienie skryptu
