@@ -3,7 +3,7 @@ import pandas as pd
 
 st.title("Dynamiczny podgląd CSV bez cache")
 
-csv_url = "https://drive.google.com/uc?id=1U6EadEGw-gFn63lnQTrtv43qtV_H9nnt"
+csv_url = "https://drive.google.com/uc?id=1_vjkv3wfZ_Uc8eer8evRVW_j3G5EevQq"
 
 try:
     df = pd.read_csv(csv_url)
