@@ -25,4 +25,4 @@ while True:
 
     # odświeżenie co 5 sekund
     time.sleep(5)
-    st.experimental_rerun()  # wymusza ponowne uruchomienie skryptu i odczyt nowego CSV
+
