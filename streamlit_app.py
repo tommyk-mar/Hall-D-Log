@@ -48,7 +48,8 @@ dzien = dzien.fillna(0)
 dzien = dzien.set_index('dzień')
 
 st.subheader("Denka dziennie")
-st.bar_chart(dzien[['Denka','Denka_dzien']], stack = False)
+st.bar_chart(dzien[['Denka'], stack = False)
+st.bar_chart(dzien[['Denka_dzien'], stack = False)
 
 st.subheader("Wieczka dziennie")
 st.bar_chart(dzien[['Wieczka','Wieczka_dzien']], stack = False)
