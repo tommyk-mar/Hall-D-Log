@@ -7,7 +7,7 @@ st.title("Dashboard produkcji")
 # miejsce na tabelę
 placeholder = st.empty()
 
-csv_file = "dane_log.csv"  # jeśli w Drive -> podmień link na 'https://drive.google.com/uc?id=ID_PLIKU'
+csv_file = "https://drive.google.com/uc?id=1U6EadEGw-gFn63lnQTrtv43qtV_H9nnt"
 
 REFRESH_INTERVAL = 5  # odświeżanie co 5 sekund
 
