@@ -30,20 +30,27 @@ if not df.empty:
     st.plotly_chart(fig_odrzuty, use_container_width=True)
 
 
-# Upewnij się, że kolumna 'czas' jest w formacie datetime
 df['Czas'] = pd.to_datetime(df['Czas'], format="%d.%m.%Y %H:%M")
 
-# Grupowanie po dniu i wybór ostatniej wartości w każdym dniu
-ostatnie_denka = df.groupby(df['Czas'].dt.date)['Denka'].last().reset_index()
-ostatnie_wieczka = df.groupby(df['Czas'].dt.date)['Wieczka'].last().reset_index()
-ostatnie_wkladki = df.groupby(df['Czas'].dt.date)['Wkladki'].last().reset_index()
-# Zmiana nazwy kolumn dla czytelności
-ostatnie_denka.columns = ['dzień', 'ostatnie_denko']
-ostatnie_wieczka.columns = ['dzień', 'ostatnie_wieczko']
-ostatnie_wkladki.columns = ['dzień', 'ostatnia_wkladka']
+# ostatni stan licznika w każdym dniu
+dzien = df.groupby(df['Czas'].dt.date)[['Denka','Wieczka','Wkladki']].last().reset_index()
+dzien = dzien.rename(columns={'Czas':'dzień'})
+
+# produkcja dzienna (różnica między dniami)
+dzien['Denka_dzien'] = dzien['Denka'].diff().clip(lower=0)
+dzien['Wieczka_dzien'] = dzien['Wieczka'].diff().clip(lower=0)
+dzien['Wkladki_dzien'] = dzien['Wkladki'].diff().clip(lower=0)
+
+dzien = dzien.fillna(0)
+
+# indeks = dzień
+dzien = dzien.set_index('Czas')
+
 st.subheader("Denka dziennie")
-st.bar_chart(data=ostatnie_denka.set_index('dzień')['ostatnie_denko'])
+st.bar_chart(dzien[['Denka','Denka_dzien']])
+
 st.subheader("Wieczka dziennie")
-st.bar_chart(data=ostatnie_wieczka.set_index('dzień')['ostatnie_wieczko'])
-st.subheader("Wkladki dziennie")
-st.bar_chart(data=ostatnie_wkladki.set_index('dzień')['ostatnia_wkladka'])
+st.bar_chart(dzien[['Wieczka','Wieczka_dzien']])
+
+st.subheader("Wkładki dziennie")
+st.bar_chart(dzien[['Wkladki','Wkladki_dzien']])
