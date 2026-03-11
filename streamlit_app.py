@@ -30,7 +30,6 @@ if not df.empty:
     st.plotly_chart(fig_odrzuty, use_container_width=True)
 
 st.subheader("Wykres kolumnowy")
-df['Czas2'] = pd.to_datetime(df['Czas'], errors='coerce')
 
 df_last_per_day = df.groupby(df['Czas2'].dt.date).last().reset_index()
 fig = px.bar(
