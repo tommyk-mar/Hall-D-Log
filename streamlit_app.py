@@ -28,3 +28,11 @@ if not df.empty:
     fig_odrzuty = px.line(df, x='Czas', y=['Blad A', 'Blad B'],
                           labels={'value':'Ilość odrzuconych', 'Czas':'Czas'})
     st.plotly_chart(fig_odrzuty, use_container_width=True)
+
+df_last_per_day = df.groupby(df['Czas'].dt.date).last().reset_index()
+
+st.subheader("Ostatnia próbka każdego dnia (produkcja)")
+
+fig_daily = px.bar(df_last_per_day, x='Czas', y=['Denka', 'Wieczka', 'Wkladki'],
+                   labels={'Czas':'Data', 'value':'Ilość'}, barmode='group')
+st.plotly_chart(fig_daily, use_container_width=True)
