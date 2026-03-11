@@ -1,37 +1,17 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Dashboard Produkcji", layout="wide")
-st.title("Dashboard produkcji")
+# URL pliku CSV z Google Drive w formacie "uc"
+csv_url = "https://drive.google.com/uc?id=1U6EadEGw-gFn63lnQTrtv43qtV_H9nnt"
 
-csv_file = "https://drive.google.com/uc?id=1U6EadEGw-gFn63lnQTrtv43qtV_H9nnt"
+st.title("Dynamiczny podgląd CSV")
 
-# --- Sekcja JavaScript odświeżająca stronę co 5 sekund ---
-st.markdown(
-    """
-    <script>
-    function refresh(){
-        setTimeout(function(){window.location.reload();}, 5000);
-    }
-    refresh();
-    </script>
-    """,
-    unsafe_allow_html=True
-)
+# Funkcja do pobrania danych
+@st.cache_data(ttl=5)  # cache wygasa po 5 sekundach
+def load_data(url):
+    df = pd.read_csv(url)
+    return df
 
-# --- Wczytanie CSV ---
-try:
-    df = pd.read_csv(csv_file, delimiter=';')
-except Exception as e:
-    st.error(f"Błąd odczytu CSV: {e}")
-    df = pd.DataFrame()
-
-# --- Wyświetlenie tabeli ---
-st.subheader("Aktualne dane z produkcji")
-st.dataframe(df, width='stretch')
-
-# --- Wykresy ---
-if not df.empty:
-    st.subheader("Wykresy produkcji i odrzutów")
-    st.line_chart(df[['Denka', 'Wieczka', 'Wkladki']])
-    st.line_chart(df[['Blad A', 'Blad B']])
+# Wyświetlenie danych
+data = load_data(csv_url)
+st.dataframe(data)
