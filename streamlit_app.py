@@ -39,4 +39,4 @@ ostatnie_denka = df.groupby(df['Czas'].dt.date)['Denka'].last().reset_index()
 # Zmiana nazwy kolumn dla czytelności
 ostatnie_denka.columns = ['dzień', 'ostatnie_denko']
 
-st.subheader(ostatnie_denka)
+st.bar_chart(data=ostatnie_denka.set_index('dzień')['ostatnie_denko'])
