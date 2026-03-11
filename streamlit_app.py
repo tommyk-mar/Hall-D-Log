@@ -16,6 +16,3 @@ except Exception as e:
 st.subheader("Oryginalna tabela CSV")
 st.dataframe(original_df)
 
-
-# Wyświetlenie tabelki z nowymi wartościami
-st.dataframe(st.session_state.new_values)
