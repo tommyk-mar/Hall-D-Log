@@ -2,17 +2,21 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.title("Dashboard produkcji")
+st.title("Log Hala D")
 
-csv_file = "dane_log.csv"
+# Link do CSV
+csv_url = "https://drive.google.com/uc?id=1_vjkv3wfZ_Uc8eer8evRVW_j3G5EevQq&export=download"
 
-# Wczytanie CSV
-df = pd.read_csv(csv_file, delimiter=';')
+# Wczytanie oryginalnego CSV
+try:
+    df = pd.read_csv(csv_url, sep=";")
+except Exception as e:
+    st.error(f"Nie udało się wczytać pliku CSV: {e}")
+    st.stop()
 
-# Zamiana kolumny 'Czas' na datetime
-df['Czas'] = pd.to_datetime(df['Czas'])
+st.subheader("Log: Hala D")
+st.dataframe(df)
 
-# --- Wykres produkcji w czasie ---
 if not df.empty:
     st.subheader("Produkcja w czasie")
     
@@ -25,11 +29,3 @@ if not df.empty:
                           labels={'value':'Ilość odrzuconych', 'Czas':'Czas'})
     st.plotly_chart(fig_odrzuty, use_container_width=True)
 
-# --- Wykres kolumnowy: ostatnia próbka z każdego dnia ---
-df_last_per_day = df.groupby(df['Czas'].dt.date).last().reset_index()
-
-st.subheader("Ostatnia próbka każdego dnia (produkcja)")
-
-fig_daily = px.bar(df_last_per_day, x='Czas', y=['Denka', 'Wieczka', 'Wkladki'],
-                   labels={'Czas':'Data', 'value':'Ilość'}, barmode='group')
-st.plotly_chart(fig_daily, use_container_width=True)
