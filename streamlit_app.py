@@ -26,3 +26,4 @@ except Exception as e:
     # odświeżenie co 5 sekund
 time.sleep(5)
 st.experimental_rerun()
+st_autorefresh
