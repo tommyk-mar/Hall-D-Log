@@ -7,37 +7,42 @@ st.title("Log Hala D")
 # Link do CSV
 csv_url = "https://drive.google.com/uc?id=1_vjkv3wfZ_Uc8eer8evRVW_j3G5EevQq&export=download"
 
-# Wczytanie oryginalnego CSV
+# Wczytanie CSV
 try:
     df = pd.read_csv(csv_url, sep=";")
 except Exception as e:
     st.error(f"Nie udało się wczytać pliku CSV: {e}")
     st.stop()
 
+# Zamiana kolumny 'Czas' na datetime (bezpiecznie)
+if not pd.api.types.is_datetime64_any_dtype(df['Czas']):
+    df['Czas'] = pd.to_datetime(df['Czas'], errors='coerce')
+
+# Wyświetlenie tabeli
 st.subheader("Log: Hala D")
 st.dataframe(df)
 
 if not df.empty:
+    # --- Wykres liniowy produkcji ---
     st.subheader("Produkcja w czasie")
-    
     fig_prod = px.line(df, x='Czas', y=['Denka', 'Wieczka', 'Wkladki'], 
                        labels={'value':'Ilość', 'Czas':'Czas'})
     st.plotly_chart(fig_prod, use_container_width=True)
     
-    # Wykres odrzutów w czasie
+    # --- Wykres liniowy odrzutów ---
     fig_odrzuty = px.line(df, x='Czas', y=['Blad A', 'Blad B'],
                           labels={'value':'Ilość odrzuconych', 'Czas':'Czas'})
     st.plotly_chart(fig_odrzuty, use_container_width=True)
-
-st.subheader("Wykres kolumnowy")
-
-df_last_per_day = df.groupby(df['Czas2'].dt.date).last().reset_index()
-fig = px.bar(
-    df_last_per_day,
-    x='Czas2',  # oś X = data
-    y=['Denka', 'Wieczka', 'Wkladki'],  # wartości kolumnowe
-    barmode='group',  # kolumny obok siebie
-    labels={'Czas':'Data', 'value':'Ilość'}
-)
-
-fig.show()
+    
+    # --- Wykres kolumnowy: ostatnia próbka z każdego dnia ---
+    df_last_per_day = df.groupby(df['Czas'].dt.date).last().reset_index()
+    
+    st.subheader("Ostatnia próbka produkcji każdego dnia")
+    fig_daily = px.bar(
+        df_last_per_day,
+        x='Czas', 
+        y=['Denka', 'Wieczka', 'Wkladki'],
+        barmode='group',
+        labels={'Czas':'Data', 'value':'Ilość'}
+    )
+    st.plotly_chart(fig_daily, use_container_width=True)
