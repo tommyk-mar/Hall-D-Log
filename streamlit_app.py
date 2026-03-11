@@ -14,7 +14,7 @@ except Exception as e:
     st.stop()
 
 st.subheader("Log: Hala D")
-st.dataframe(original_df)
+st.dataframe(df)
 
 if not df.empty:
     st.subheader("Wykresy produkcji i odrzutów")
