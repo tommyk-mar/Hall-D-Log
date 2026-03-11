@@ -30,7 +30,7 @@ if not df.empty:
     st.plotly_chart(fig_odrzuty, use_container_width=True)
 
 
-df['Czas'] = pd.to_datetime(df['Czas'], format="%d.%m.%Y %H:%M")
+df['Czas'] = pd.to_datetime(df['Czas'], format="%Y.%m.%d %H:%M:%S")
 
 # ostatni stan licznika w każdym dniu
 dzien = df.groupby(df['Czas'].dt.date)[['Denka','Wieczka','Wkladki']].last().reset_index()
