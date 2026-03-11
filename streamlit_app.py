@@ -1,8 +1,11 @@
 import streamlit as st
 import pandas as pd
-import time
+from streamlit_autorefresh import st_autorefresh
 
 st.title("Dashboard produkcji")
+
+# odświeżanie co 5 sekund (5000 ms)
+st_autorefresh(interval=5000, key="refresh")
 
 # Link do CSV na Google Drive
 csv_file = "https://drive.google.com/uc?id=1U6EadEGw-gFn63lnQTrtv43qtV_H9nnt"
@@ -18,19 +21,8 @@ except Exception as e:
 st.subheader("Aktualne dane z produkcji")
 st.dataframe(df, use_container_width=True)
 
-# Wykresy (opcjonalnie)
+# Wykresy
 if not df.empty:
     st.subheader("Wykresy produkcji i odrzutów")
     st.line_chart(df[['Denka', 'Wieczka', 'Wkladki']])
     st.line_chart(df[['Blad A', 'Blad B']])
-
-# --- automatyczne odświeżanie co 5 sekund ---
-st_autorefresh = st.experimental_get_query_params()
-refresh_interval = 5  # sekundy
-
-# dodajemy parametr odświeżania
-if "refresh" not in st_autorefresh:
-    st.experimental_set_query_params(refresh=0)
-
-# Streamlit samo odświeża stronę po podanym czasie
-st.experimental_rerun()  # wymusza ponowne uruchomienie skryptu
