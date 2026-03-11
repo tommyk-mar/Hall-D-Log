@@ -39,4 +39,4 @@ ostatnie_denka = df.groupby(df['Czas'].dt.date)['Denka'].last().reset_index()
 # Zmiana nazwy kolumn dla czytelności
 ostatnie_denka.columns = ['dzień', 'ostatnie_denko']
 
-print(ostatnie_denka)
+st.subheader("ostatnie_denko")
