@@ -31,7 +31,7 @@ if not df.empty:
 
 
 # Upewnij się, że kolumna 'czas' jest w formacie datetime
-df['Czas'] = pd.to_datetime(df['Czas'])
+df['Czas'] = pd.to_datetime(df['Czas'], format="%d.%m.%Y %H:%M")
 
 # Grupowanie po dniu i wybór ostatniej wartości w każdym dniu
 ostatnie_denka = df.groupby(df['Czas'].dt.date)['Denka'].last().reset_index()
