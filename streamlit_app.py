@@ -29,3 +29,14 @@ if not df.empty:
                           labels={'value':'Ilość odrzuconych', 'Czas':'Czas'})
     st.plotly_chart(fig_odrzuty, use_container_width=True)
 
+
+# Upewnij się, że kolumna 'czas' jest w formacie datetime
+df['czas'] = pd.to_datetime(df['czas'])
+
+# Grupowanie po dniu i wybór ostatniej wartości w każdym dniu
+ostatnie_denka = df.groupby(df['czas'].dt.date)['Denka'].last().reset_index()
+
+# Zmiana nazwy kolumn dla czytelności
+ostatnie_denka.columns = ['dzień', 'ostatnie_denko']
+
+print(ostatnie_denka)
