@@ -29,3 +29,15 @@ if not df.empty:
                           labels={'value':'Ilość odrzuconych', 'Czas':'Czas'})
     st.plotly_chart(fig_odrzuty, use_container_width=True)
 
+df['Czas'] = pd.to_datetime(df['Czas'])
+st.subheader("Wykres kolumnowy")
+df_last_per_day = df.groupby(df['Czas'].dt.date).last().reset_index()
+fig = px.bar(
+    df_last_per_day,
+    x='Czas',  # oś X = data
+    y=['Denka', 'Wieczka', 'Wkladki'],  # wartości kolumnowe
+    barmode='group',  # kolumny obok siebie
+    labels={'Czas':'Data', 'value':'Ilość'}
+)
+
+fig.show()
