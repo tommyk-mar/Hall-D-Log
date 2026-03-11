@@ -17,6 +17,13 @@ st.subheader("Log: Hala D")
 st.dataframe(df)
 
 if not df.empty:
-    st.subheader("Wykresy produkcji i odrzutów")
-    st.line_chart(df[['Denka', 'Wieczka', 'Wkladki']])
-    st.line_chart(df[['Blad A', 'Blad B']])
+    st.subheader("Produkcja w czasie")
+    
+    fig_prod = px.line(df, x='Czas', y=['Denka', 'Wieczka', 'Wkladki'], 
+                       labels={'value':'Ilość', 'Czas':'Czas'})
+    st.plotly_chart(fig_prod, use_container_width=True)
+    
+    # Wykres odrzutów w czasie
+    fig_odrzuty = px.line(df, x='Czas', y=['Blad A', 'Blad B'],
+                          labels={'value':'Ilość odrzuconych', 'Czas':'Czas'})
+    st.plotly_chart(fig_odrzuty, use_container_width=True)
