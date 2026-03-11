@@ -36,15 +36,15 @@ df['Czas'] = pd.to_datetime(df['Czas'], format="%d.%m.%Y %H:%M")
 dzien = df.groupby(df['Czas'].dt.date)[['Denka','Wieczka','Wkladki']].last().reset_index()
 dzien = dzien.rename(columns={'Czas':'dzień'})
 
-# produkcja dzienna (różnica między dniami)
+# produkcja dzienna
 dzien['Denka_dzien'] = dzien['Denka'].diff().clip(lower=0)
 dzien['Wieczka_dzien'] = dzien['Wieczka'].diff().clip(lower=0)
 dzien['Wkladki_dzien'] = dzien['Wkladki'].diff().clip(lower=0)
 
 dzien = dzien.fillna(0)
 
-# indeks = dzień
-dzien = dzien.set_index('Czas')
+# ustawienie indeksu
+dzien = dzien.set_index('dzień')
 
 st.subheader("Denka dziennie")
 st.bar_chart(dzien[['Denka','Denka_dzien']])
