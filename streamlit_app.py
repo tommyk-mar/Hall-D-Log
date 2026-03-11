@@ -41,7 +41,9 @@ ostatnie_wkladki = df.groupby(df['Czas'].dt.date)['Wkladki'].last().reset_index(
 ostatnie_denka.columns = ['dzień', 'ostatnie_denko']
 ostatnie_wieczka.columns = ['dzień', 'ostatnie_wieczko']
 ostatnie_wkladki.columns = ['dzień', 'ostatnia_wkladka']
-
+st.subheader("Denka dziennie")
 st.bar_chart(data=ostatnie_denka.set_index('dzień')['ostatnie_denko'])
+st.subheader("Wieczka dziennie")
 st.bar_chart(data=ostatnie_wieczka.set_index('dzień')['ostatnie_wieczko'])
+st.subheader("Wkladki dziennie")
 st.bar_chart(data=ostatnie_wkladki.set_index('dzień')['ostatnia_wkladka'])
