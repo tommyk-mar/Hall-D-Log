@@ -23,9 +23,9 @@ if not df.empty:
     fig_prod = px.line(df, x='Czas', y=['Denka', 'Wieczka', 'Wkladki'], 
                        labels={'value':'Ilość', 'Czas':'Czas'})
     st.plotly_chart(fig_prod, use_container_width=True)
-    
+st.subheader("Błędy:")  
     # Wykres odrzutów w czasie
-    fig_odrzuty = px.line(df, x='Czas', y=['Blad A', 'Blad B'],
+    fig_odrzuty = px.line(df, x='Czas', y=['Blad A', 'Blad B','Blad C'],
                           labels={'value':'Ilość odrzuconych', 'Czas':'Czas'})
     st.plotly_chart(fig_odrzuty, use_container_width=True)
 
