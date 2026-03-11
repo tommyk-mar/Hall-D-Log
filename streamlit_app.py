@@ -28,7 +28,7 @@ except Exception as e:
 
 # --- Wyświetlenie tabeli ---
 st.subheader("Aktualne dane z produkcji")
-st.dataframe(df, width='stretch)
+st.dataframe(df, width=stretch)
 
 # --- Wykresy ---
 if not df.empty:
