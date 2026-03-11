@@ -35,8 +35,11 @@ df['Czas'] = pd.to_datetime(df['Czas'], format="%d.%m.%Y %H:%M")
 
 # Grupowanie po dniu i wybór ostatniej wartości w każdym dniu
 ostatnie_denka = df.groupby(df['Czas'].dt.date)['Denka'].last().reset_index()
-
+ostatnie_wieka = df.groupby(df['Czas'].dt.date)['Wieka'].last().reset_index()
+ostatnie_wkladki = df.groupby(df['Czas'].dt.date)['Wkladki'].last().reset_index()
 # Zmiana nazwy kolumn dla czytelności
 ostatnie_denka.columns = ['dzień', 'ostatnie_denko']
+ostatnie_wieka.columns = ['dzień', 'ostatnie_wieko']
+ostatnie_wkladki.columns = ['dzień', 'ostatnia_wkladka']
 
-st.bar_chart(data=ostatnie_denka.set_index('dzień')['ostatnie_denko'])
+st.bar_chart(data=ostatnie_denka.set_index('dzień')['ostatnie_denko','ostatnie_wieko','ostatnia_wkladka'])
