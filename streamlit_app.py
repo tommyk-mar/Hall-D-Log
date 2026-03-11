@@ -13,6 +13,16 @@ except Exception as e:
     st.error(f"Nie udało się wczytać pliku CSV: {e}")
     st.stop()
 
-st.subheader("Oryginalna tabela CSV")
+st.subheader("Log: Hala D")
 st.dataframe(original_df)
 
+fig, ax = plt.subplots()
+ax.bar(df["Produkt"], df["Uzytki"], label="Użytek 1")
+ax.bar(df["Produkt"], df["Uzytki2"], bottom=df["Uzytki"], label="Użytek 2")  # wykres skumulowany
+ax.set_xlabel("Produkt")
+ax.set_ylabel("Liczba użytków")
+ax.set_title("Wykres użytków")
+ax.legend()
+ax.grid(True, axis='y', linestyle='--', alpha=0.7)
+
+st.pyplot(fig)
