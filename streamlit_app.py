@@ -4,7 +4,7 @@ import pandas as pd
 st.title("Dodawanie wartości do osobnej tabelki")
 
 # Link do CSV
-csv_url = "https://drive.google.com/uc?id=NOWE_ID_TUTAJ&export=download"
+csv_url = "https://drive.google.com/uc?id=1_vjkv3wfZ_Uc8eer8evRVW_j3G5EevQq&export=download"
 
 # Wczytanie oryginalnego CSV
 try:
