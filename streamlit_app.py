@@ -1,27 +1,20 @@
 import streamlit as st
 import pandas as pd
-import time
+from streamlit_autorefresh import st_autorefresh
 
 st.title("Dashboard produkcji")
 
-# miejsce na tabelę
-placeholder = st.empty()
+# automatyczne odświeżanie co 5 sekund
+st_autorefresh(interval=5*1000, key="datarefresh")
 
 csv_file = "https://drive.google.com/uc?id=1U6EadEGw-gFn63lnQTrtv43qtV_H9nnt"
 
-REFRESH_INTERVAL = 5  # odświeżanie co 5 sekund
+try:
+    # wczytanie CSV
+    df = pd.read_csv(csv_file, delimiter=';')  # delimiter ';' bo Twój CSV ma średniki
 
-while True:
-    try:
-        # wczytanie CSV
-        df = pd.read_csv(csv_file, delimiter=';')  # delimiter ';' bo Twój CSV ma średniki
+    st.subheader("Aktualne dane z produkcji")
+    st.dataframe(df)  # wyświetla wszystkie wiersze
 
-        # wyświetlenie tabeli w Streamlit
-        with placeholder.container():
-            st.subheader("Aktualne dane z produkcji")
-            st.dataframe(df)  # tabela interaktywna
-
-    except Exception as e:
-        st.error(f"Błąd odczytu pliku: {e}")
-
-    time.sleep(REFRESH_INTERVAL)
+except Exception as e:
+    st.error(f"Błąd odczytu pliku: {e}")
