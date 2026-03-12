@@ -5,8 +5,8 @@ import plotly.express as px
 st.title("Log Hala D")
 
 # Link do CSV
-csv_url = "https://drive.google.com/uc?id=1_vjkv3wfZ_Uc8eer8evRVW_j3G5EevQq&export=download"
-#csv_url = "https://drive.google.com/uc?id=1HREuU-v3s_YT3f-mdIEJNwxObJoJgj-I&export=download"  
+#csv_url = "https://drive.google.com/uc?id=1_vjkv3wfZ_Uc8eer8evRVW_j3G5EevQq&export=download"
+csv_url = "https://drive.google.com/uc?id=1HREuU-v3s_YT3f-mdIEJNwxObJoJgj-I&export=download"  
 
 # Wczytanie oryginalnego CSV
 try:
