@@ -11,6 +11,7 @@ csv_url = "https://drive.google.com/uc?id=1HREuU-v3s_YT3f-mdIEJNwxObJoJgj-I&expo
 # Wczytanie oryginalnego CSV
 try:
     df = pd.read_csv(csv_url, sep=";")
+    df = df.replace(0,None)
 except Exception as e:
     st.error(f"Nie udało się wczytać pliku CSV: {e}")
     st.stop()
